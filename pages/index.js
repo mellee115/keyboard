@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.scss'
+import {useEffect} from "react";
 
 export default function Home() {
 
@@ -25,6 +26,24 @@ export default function Home() {
     '',
   ];
 
+  const keyDownHandler = (e) => {
+    switch (e.value) {
+      case'A':
+
+        break;
+      default:
+    }
+    console.log(`You pressed ${e.code}.`);
+  }
+
+  useEffect(() => {
+    document.addEventListener("keydown", keyDownHandler);
+    // clean up
+    return () => {
+      document.removeEventListener("keydown", keyDownHandler);
+    };
+  }, []);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -45,7 +64,7 @@ export default function Home() {
         <div className={styles.grid}>
           {[...Array(15)].map((note, i) => {
             return(
-              <div className={styles.whiteKey}>
+              <div key={i} className={styles.whiteKey}>
                 {!((whiteKeys[i].includes('E')) ||
                    (whiteKeys[i].includes('B')) ||
                    (whiteKeys[i].includes('5'))) && <div className={styles.blackKey}/>}

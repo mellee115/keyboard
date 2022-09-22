@@ -32,6 +32,7 @@
   margin: 0;
   line-height: 1.15;
   font-size: 4rem;
+  font-family: Tamagotchi, monospace;
 }
 
 .title,
@@ -45,15 +46,6 @@
   font-size: 1.5rem;
 }
 
-.code {
-  background: #fafafa;
-  border-radius: 5px;
-  padding: 0.75rem;
-  font-size: 1.1rem;
-  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-    Bitstream Vera Sans Mono, Courier New, monospace;
-}
-
 .grid {
   display: flex;
   align-items: center;
@@ -63,12 +55,12 @@
 .whiteKey {
   border: 1px solid #000;
   border-radius: 0px 0px 2px 2px;
-  transition: color 0.15s ease, border-color 0.15s ease;
   height: 10rem;
   width: 3.5rem;
   display: flex;
   overflow: visible;
   position: relative;
+  z-index: 1;
 }
 
 .blackKey {
@@ -76,7 +68,7 @@
   border: 1px solid #000;
   border-radius: 2px;
   width: 1.75rem;
-  background-color: #000000;
+  background-color: #000;
   z-index: 2;
   margin-left: 80%;
   position: absolute;
@@ -99,14 +91,49 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .card,
   .footer {
     border-color: #222;
-  }
-  .code {
-    background: #111;
   }
   .logo img {
     filter: invert(1);
   }
+}
+
+$color-1: #ff355e;
+$color-2: #fd5b78;
+$color-3: #ff6037;
+$color-4: #ff9966;
+$color-5: #ff9933;
+$color-6: #ffcc33;
+$color-7: #ffff66;
+$color-8: #ccff00;
+$color-9: #66ff66;
+$color-10: #aaf0d1;
+$color-11: #16d0cb;
+$color-12: #50bfe6;
+$color-13: #9c27b0;
+$color-14: #ee34d2;
+$color-15: #ff00cc;
+
+$rainbow: $color-1,$color-2,$color-3,$color-4,$color-5,$color-6,$color-7,$color-8,$color-9,$color-10,$color-11,$color-12,$color-13,$color-14,$color-15;
+
+$x: 1;
+//rainbow animation factory
+@each $color in $rainbow {
+  @keyframes keyPress#{$x} {
+    50%{
+      transform: scaleY(0.95);
+      transform-origin: top;
+      background-color: $color;
+    }
+    100%{
+      background-color: #fff;
+    }
+  }
+
+  .whiteKey:nth-of-type(#{$x}){
+    animation: keyPress#{$x} linear 1s;
+    animation-delay: $x * 0.25s;
+  }
+  $x: $x + 1;
 }
