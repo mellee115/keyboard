@@ -35,19 +35,44 @@
   font-family: Tamagotchi, monospace;
 }
 
-.title,
-.description {
-  text-align: center;
+@keyframes blinking{
+  0%, 100%{
+    border-color: transparent;
+  }
+  50%{
+    border-color: #000;
+  }
+}
+
+@keyframes typing{
+  0%{
+    visibility: hidden;
+    width: 0px;
+  }
+  100%{
+    width: 100%;
+  }
+}
+
+%typing{
+  overflow: hidden;
+  animation: typing 3.5s steps(30),
+  blinking 1s step-end infinite;
+  animation-delay: 2.5s;
+  animation-fill-mode: both;
 }
 
 .description {
   margin: 4rem 0;
   line-height: 1.5;
   font-size: 1.5rem;
+  white-space: nowrap;
+  max-width: min-content;
+  border-right: .125em solid #000;
+  @extend %typing;
 }
 
-.grid {
-  display: flex;
+.piano {
   align-items: center;
   justify-content: center;
 }
@@ -55,11 +80,9 @@
 .whiteKey {
   border: 1px solid #000;
   border-radius: 0px 0px 2px 2px;
+  display: inline-flex;
   height: 10rem;
   width: 3.5rem;
-  display: flex;
-  overflow: visible;
-  position: relative;
   z-index: 1;
 }
 
@@ -69,12 +92,13 @@
   border-radius: 2px;
   width: 1.75rem;
   background-color: #000;
-  z-index: 2;
-  margin-left: 80%;
+  margin-left: 75%;
   position: absolute;
+  z-index: 2;
 }
 
 .whiteNote{
+  margin-top: auto;
   padding: 1rem;
 }
 
@@ -122,18 +146,16 @@ $x: 1;
 @each $color in $rainbow {
   @keyframes keyPress#{$x} {
     50%{
-      transform: scaleY(0.95);
+      transform: scaleY(1.05);
       transform-origin: top;
       background-color: $color;
-    }
-    100%{
-      background-color: #fff;
     }
   }
 
   .whiteKey:nth-of-type(#{$x}){
     animation: keyPress#{$x} linear 1s;
-    animation-delay: $x * 0.25s;
+    animation-delay: $x * 0.15s;
+    animation-fill-mode: forwards;
   }
   $x: $x + 1;
 }

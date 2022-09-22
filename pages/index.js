@@ -61,7 +61,7 @@ export default function Home() {
           Care to play a little tune?
         </p>
 
-        <div className={styles.grid}>
+        <div className={styles.piano}>
           {[...Array(15)].map((note, i) => {
             return(
               <div key={i} className={styles.whiteKey}>
