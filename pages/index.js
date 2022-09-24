@@ -5,6 +5,9 @@ import {useEffect} from "react";
 
 export default function Home() {
 
+  const path = '/notes/';
+  const ext = '.mp3';
+
   const whiteKeys = [
     'C3',
     'D3',
@@ -22,18 +25,20 @@ export default function Home() {
     'B4',
     'C5',
   ];
-  const blackKeys = [
-    '',
-  ];
+
+  const keyboard = {
+    'KeyW': 'C-3',
+    'KeyA': 'C3',
+    'KeyS': 'D3',
+  }
+
+  const playNote = (keyId) =>{
+    document.getElementById(keyId).play();
+  }
 
   const keyDownHandler = (e) => {
-    switch (e.value) {
-      case'A':
-
-        break;
-      default:
-    }
-    console.log(`You pressed ${e.code}.`);
+    let id = keyboard[e.code];
+    playNote(id);
   }
 
   useEffect(() => {
@@ -62,18 +67,24 @@ export default function Home() {
         </p>
 
         <div className={styles.piano}>
-          {[...Array(15)].map((note, i) => {
+
+          {whiteKeys.map((key) => {
             return(
-              <div key={i} className={styles.whiteKey}>
-                {!((whiteKeys[i].includes('E')) ||
-                   (whiteKeys[i].includes('B')) ||
-                   (whiteKeys[i].includes('5'))) && <div className={styles.blackKey}/>}
-                <p className={styles.whiteNote}>{whiteKeys[i]}</p>
+              <div className={styles.whiteKey} key={key}>
+                <audio id={key} src={`${path}${key.toLowerCase()}${ext}`}/>
+                {!(key.includes('E') ||
+                   key.includes('B') ||
+                   key.includes('5'))
+                &&
+                <div className={styles.blackKey}>
+                    <audio id={`${key[0]}-${key[1]}`} src={`${path}${key[0].toLowerCase()}-${key[1]}${ext}`}/>
+                </div>
+                }
+                <p className={styles.whiteNote}>{key}</p>
               </div>
             )
           })
           }
-
         </div>
       </main>
 
