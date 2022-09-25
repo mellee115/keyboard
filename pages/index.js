@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.scss'
-import {useEffect} from "react";
+import {useEffect} from 'react';
 
 export default function Home() {
 
@@ -23,22 +23,44 @@ export default function Home() {
     'G4',
     'A4',
     'B4',
-    'C5',
   ];
 
   const keyboard = {
-    'KeyW': 'C-3',
-    'KeyA': 'C3',
-    'KeyS': 'D3',
+    'KeyW':         'C-3',
+    'KeyA':         'C3',
+    'KeyS':         'D3',
+    'KeyE':         'D-3',
+    'KeyD':         'E3',
+    'KeyF':         'F3',
+    'KeyT':         'F-3',
+    'KeyG':         'G3',
+    'KeyY':         'G-3',
+    'KeyH':         'A3',
+    'KeyU':         'A-3',
+    'KeyJ':         'B3',
+    'KeyK':         'C4',
+    'KeyO':         'C-4',
+    'KeyL':         'D4',
+    'KeyP':         'D-4',
+    'Semicolon':    'E4',
+    'Quote':        'F4',
+    'Enter':        'G4',
+    'Backslash':    'G-4',
   }
 
+  /**
+   * plays the note by given id
+   * @param keyId */
   const playNote = (keyId) =>{
     document.getElementById(keyId).play();
   }
 
+  /**
+   * determines the note to play on key press when there is a mapping present
+   * @param e */
   const keyDownHandler = (e) => {
     let id = keyboard[e.code];
-    playNote(id);
+    id && playNote(id);
   }
 
   useEffect(() => {
@@ -70,14 +92,13 @@ export default function Home() {
 
           {whiteKeys.map((key) => {
             return(
-              <div className={styles.whiteKey} key={key}>
+              <div className={styles.whiteKey} key={key} onClick={()=>playNote(key)}>
                 <audio id={key} src={`${path}${key.toLowerCase()}${ext}`}/>
-                {!(key.includes('E') ||
-                   key.includes('B') ||
-                   key.includes('5'))
+                {!(key.includes('E') || key.includes('B'))
                 &&
-                <div className={styles.blackKey}>
-                    <audio id={`${key[0]}-${key[1]}`} src={`${path}${key[0].toLowerCase()}-${key[1]}${ext}`}/>
+                // Need to make the black keys clickable since click events are triggering the parent
+                <div className={styles.blackKey} key={key} onClick={()=>playNote(key)}>
+                  <audio id={`${key[0]}-${key[1]}`} src={`${path}${key[0].toLowerCase()}-${key[1]}${ext}`}/>
                 </div>
                 }
                 <p className={styles.whiteNote}>{key}</p>
@@ -87,7 +108,6 @@ export default function Home() {
           }
         </div>
       </main>
-
       <footer className={styles.footer}>
         <a
           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
