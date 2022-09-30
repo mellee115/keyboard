@@ -96,6 +96,13 @@
   position: absolute;
   z-index: 2;
 }
+//.blackKey:active{
+//  animation-duration: 1s;
+//  transform: scaleY(1.05);
+//  transform-origin: top;
+//  filter: desaturate(#000,50%);
+//  animation-timing-function: ease;
+//}
 
 .whiteNote{
   margin-top: auto;
@@ -152,11 +159,17 @@ $x: 1;
       background-color: $color;
     }
   }
-
   .whiteKey:nth-of-type(#{$x}){
     animation: keyPress#{$x} linear 1s;
     animation-delay: $x * 0.15s;
     animation-fill-mode: forwards;
+  }
+  .whiteKey:nth-of-type(#{$x}):active{
+    animation-duration: 1s;
+    transform: scaleY(1.05);
+    transform-origin: top;
+    background-color: $color;
+    animation-timing-function: ease;
   }
   $x: $x + 1;
 }
